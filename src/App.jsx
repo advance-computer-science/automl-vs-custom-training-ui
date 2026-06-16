@@ -1,6 +1,7 @@
 //
 
 import "./App.css";
+import ImageUpload from "./components/ImageUpload";
 
 // ----------------------------------------------
 
@@ -18,6 +19,8 @@ function App() {
           </div>
         </div>
       </section>
+
+      <ImageUpload />
 
       <div className="ticks"></div>
 
