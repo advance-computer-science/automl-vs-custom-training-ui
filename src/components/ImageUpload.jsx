@@ -1,19 +1,27 @@
 //
 
 import { useState } from "react";
+import { predictImage } from "../utils/predictImage";
 
 // ----------------------------------------------
 
 export default function ImageUpload() {
   const [image, setImage] = useState(null);
+  const [prediction, setPrediction] = useState(null);
 
-  const handleImageChange = (event) => {
+  const handleImageChange = async (event) => {
     const file = event.target.files[0];
 
     if (!file) return;
 
     setImage(URL.createObjectURL(file));
+
+    const result = await predictImage(file);
+
+    setPrediction(result);
   };
+
+  console.log(prediction);
 
   return (
     <div>
