@@ -1,1 +1,1 @@
-# automl-vs-custom-training-ui
+# AutoML vs Custom Training UI
