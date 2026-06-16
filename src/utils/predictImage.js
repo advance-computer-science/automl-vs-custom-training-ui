@@ -28,7 +28,5 @@ export const predictImage = async (file) => {
 
   const result = await response.json();
 
-  console.log(result);
-
   return result;
 };
