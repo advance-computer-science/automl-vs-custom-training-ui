@@ -79,7 +79,7 @@ export default function ImageUpload() {
         </div>
       )}
 
-      {detections?.length && (
+      {detections?.length ? (
         <div
           style={{
             position: "relative",
@@ -92,7 +92,7 @@ export default function ImageUpload() {
             alt="MRI"
           />
 
-          {detections.map((detection, index) => {
+          {detections?.map((detection, index) => {
             const box = getBoundingBoxPixels(
               detection.bbox,
               image.width,
@@ -128,7 +128,7 @@ export default function ImageUpload() {
             );
           })}
         </div>
-      )}
+      ) : null}
     </div>
   );
 }

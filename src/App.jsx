@@ -22,9 +22,6 @@ function App() {
 
       <ImageUpload />
 
-      <div className="ticks"></div>
-
-      <div className="ticks"></div>
       <section id="spacer"></section>
     </>
   );
