@@ -8,18 +8,16 @@ export default function AutoMLimg({ detections, image }) {
   const imageRef = useRef(null);
 
   const getBoundingBoxPixels = (bbox, imageWidth, imageHeight) => {
-    const [xMin, yMin, xMax, yMax] = bbox;
+    const [xMin, xMax, yMin, yMax] = bbox;
 
-    return {
-      x: xMin * imageWidth,
-      y: yMin * imageHeight,
-      width: (xMax - xMin) * imageWidth,
-      height: (yMax - yMin) * imageHeight,
+    const box = {
       left: Math.round(xMin * imageWidth),
       top: Math.round(yMin * imageHeight),
       boxWidth: Math.round((xMax - xMin) * imageWidth),
       boxHeight: Math.round((yMax - yMin) * imageHeight),
     };
+
+    return box;
   };
 
   return (
@@ -48,13 +46,16 @@ export default function AutoMLimg({ detections, image }) {
             ref={imageRef}
             src={image?.url}
             alt="MRI"
+            style={{ display: "block" }}
+            height={256}
+            width={256}
           />
 
           {detections?.map((detection, index) => {
             const box = getBoundingBoxPixels(
               detection.bbox,
-              image.width,
-              image.height,
+              image?.width,
+              image?.height,
             );
 
             return (
@@ -66,17 +67,19 @@ export default function AutoMLimg({ detections, image }) {
                   top: box.top,
                   width: box.boxWidth,
                   height: box.boxHeight,
-                  border: "3px solid red",
+                  border: "2px solid red",
+                  boxSizing: "border-box",
                 }}
               >
                 <div
                   style={{
                     position: "absolute",
-                    top: Math.max(25, box.top - 10),
-                    left: box.left,
+                    left: -30,
+                    top: -30,
                     color: "#fff",
                     padding: "2px 6px",
                     fontSize: "12px",
+                    width: 120,
                   }}
                 >
                   {detection.label} ({(detection.confidence * 100).toFixed(1)}

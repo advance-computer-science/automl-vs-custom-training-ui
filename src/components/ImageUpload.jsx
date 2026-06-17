@@ -5,12 +5,16 @@ import { predictImage } from "../utils/predictImage";
 import { extractDetections } from "../utils/extractDetections";
 import "./ImageUpload.css";
 import AutoMLimg from "./AutoMLimg";
+import { customTrainingPrediction } from "../utils/customTrainingPrediction";
+import { resizeImage } from "../utils/resizeImage";
 
 // ----------------------------------------------
 
 export default function ImageUpload() {
   const [image, setImage] = useState(null);
   const [detections, setDetections] = useState([]);
+  const [customTrainedImage, setCustomTrainedImage] = useState("");
+
   const fileInputRef = useRef(null);
 
   const handleImageChange = async (event) => {
@@ -20,20 +24,20 @@ export default function ImageUpload() {
 
     const imageUrl = URL.createObjectURL(file);
 
-    const img = new Image();
+    const resizedFile = await resizeImage(file, 256, 256);
 
-    img.onload = () => {
-      setImage({
-        file,
-        url: imageUrl,
-        width: img.width,
-        height: img.height,
-      });
-    };
+    setImage({
+      resizeImage,
+      url: imageUrl,
+      width: 256,
+      height: 256,
+    });
 
-    img.src = imageUrl;
-
-    const result = await predictImage(file);
+    const result = await predictImage(resizedFile);
+    const customResult = await customTrainingPrediction(resizedFile);
+    if (customResult?.mask_base64) {
+      setCustomTrainedImage(customResult?.mask_base64);
+    }
 
     const filteredDetections = extractDetections(result);
 
@@ -78,11 +82,31 @@ export default function ImageUpload() {
         </div>
       </div>
 
-      <div>
-        <AutoMLimg
-          detections={detections}
-          image={image}
-        />
+      <div
+        style={{
+          display: "flex",
+          gap: 32,
+          justifyContent: "center",
+          flexWrap: "wrap",
+        }}
+      >
+        {detections?.length ? (
+          <AutoMLimg
+            detections={detections}
+            image={image}
+          />
+        ) : null}
+
+        {customTrainedImage?.length ? (
+          <div>
+            <img
+              height={256}
+              width={256}
+              src={"data:image/jpg;base64," + customTrainedImage}
+              alt="custom_trained_img"
+            />
+          </div>
+        ) : null}
       </div>
     </>
   );
