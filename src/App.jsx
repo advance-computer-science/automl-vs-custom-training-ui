@@ -20,6 +20,9 @@ function App() {
         </div>
       </section>
 
+      <div style={{ height: 42 }} />
+      <div style={{ height: 42 }} />
+
       <ImageUpload />
 
       <section id="spacer"></section>
