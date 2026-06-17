@@ -3,13 +3,15 @@
 import { useRef, useState } from "react";
 import { predictImage } from "../utils/predictImage";
 import { extractDetections } from "../utils/extractDetections";
+import "./ImageUpload.css";
+import AutoMLimg from "./AutoMLimg";
 
 // ----------------------------------------------
 
 export default function ImageUpload() {
   const [image, setImage] = useState(null);
   const [detections, setDetections] = useState([]);
-  const imageRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
@@ -38,97 +40,50 @@ export default function ImageUpload() {
     setDetections(filteredDetections);
   };
 
-  const getBoundingBoxPixels = (bbox, imageWidth, imageHeight) => {
-    const [xMin, yMin, xMax, yMax] = bbox;
-
-    return {
-      x: xMin * imageWidth,
-      y: yMin * imageHeight,
-      width: (xMax - xMin) * imageWidth,
-      height: (yMax - yMin) * imageHeight,
-      left: Math.round(xMin * imageWidth),
-      top: Math.round(yMin * imageHeight),
-      boxWidth: Math.round((xMax - xMin) * imageWidth),
-      boxHeight: Math.round((yMax - yMin) * imageHeight),
-    };
+  const handleImageClick = () => {
+    fileInputRef.current.click();
   };
 
-  console.log(image);
-  console.log(detections);
-
   return (
-    <div>
-      {!image && (
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-        />
-      )}
-
-      {image?.url && detections?.length === 0 && (
+    <>
+      <div className="upload-container">
         <div
-          style={{
-            color: "#fff",
-            padding: "10px 20px",
-            backgroundColor: "rgba(0, 0, 0, 0.7)",
-            fontSize: "18px",
-          }}
+          className="upload-box"
+          onClick={handleImageClick}
         >
-          No tumor detections for MRI on above 0.8 confidence threshold.
-        </div>
-      )}
-
-      {detections?.length ? (
-        <div
-          style={{
-            position: "relative",
-            display: "inline-block",
-          }}
-        >
-          <img
-            ref={imageRef}
-            src={image?.url}
-            alt="MRI"
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            hidden
           />
 
-          {detections?.map((detection, index) => {
-            const box = getBoundingBoxPixels(
-              detection.bbox,
-              image.width,
-              image.height,
-            );
-
-            return (
-              <div
-                key={index}
-                style={{
-                  position: "absolute",
-                  left: box.left,
-                  top: box.top,
-                  width: box.boxWidth,
-                  height: box.boxHeight,
-                  border: "3px solid red",
-                }}
-              >
-                <div
-                  style={{
-                    position: "absolute",
-                    top: Math.max(25, box.top - 10),
-                    left: box.left,
-                    color: "#fff",
-                    padding: "2px 6px",
-                    fontSize: "12px",
-                  }}
-                >
-                  {detection.label} ({(detection.confidence * 100).toFixed(1)}
-                  %)
-                </div>
-              </div>
-            );
-          })}
+          <label
+            htmlFor="image-upload"
+            className="upload-label"
+          >
+            {image?.url ? (
+              <img
+                src={image.url}
+                alt="Preview"
+                className="preview-image"
+              />
+            ) : (
+              <>
+                <p>📷 Click to upload an image</p>
+              </>
+            )}
+          </label>
         </div>
-      ) : null}
-    </div>
+      </div>
+
+      <div>
+        <AutoMLimg
+          detections={detections}
+          image={image}
+        />
+      </div>
+    </>
   );
 }
