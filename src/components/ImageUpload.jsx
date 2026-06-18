@@ -54,32 +54,50 @@ export default function ImageUpload() {
   return (
     <>
       <div className="upload-container">
-        <div
-          className="upload-box"
-          onClick={handleImageClick}
-        >
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            hidden
-          />
-
-          <label
-            htmlFor="image-upload"
-            className="upload-label"
+        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+          <div
+            className="upload-box"
+            onClick={handleImageClick}
           >
-            {image?.url ? (
-              <img
-                src={image.url}
-                alt="Preview"
-                className="preview-image"
-              />
-            ) : (
-              <p>📷 Click to upload an image</p>
-            )}
-          </label>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              hidden
+            />
+
+            <label
+              htmlFor="image-upload"
+              className="upload-label"
+            >
+              {image?.url ? (
+                <img
+                  src={image.url}
+                  alt="Preview"
+                  className="preview-image"
+                />
+              ) : (
+                <p>📷 Click to upload an image</p>
+              )}
+            </label>
+          </div>
+
+          <div>
+            <button
+              style={{
+                border: "none",
+                backgroundColor: "#3c3cb8",
+                color: "white",
+                padding: "8px 16px",
+                borderRadius: 4,
+                cursor: "pointer",
+              }}
+              onClick={handleImageClick}
+            >
+              Upload new MRI scan
+            </button>
+          </div>
         </div>
       </div>
 
@@ -89,7 +107,7 @@ export default function ImageUpload() {
         </div>
       ) : null}
 
-      {detections?.length || customTrainedImage?.length ? (
+      {!isLoading && (detections?.length || customTrainedImage?.length) ? (
         <div
           style={{
             display: "flex",

@@ -8,10 +8,12 @@ import ImageUpload from "./components/ImageUpload";
 function App() {
   return (
     <>
+      <div style={{ height: 16 }} />
+
       <section id="center">
         <div className="hero">
           <div>
-            <h1>AutoML vs Custom Training </h1>
+            <h2>AutoML vs Custom Training </h2>
             <p>
               Predict the Brain tumor possibility using AutoML and Custom
               Training and compare the results.
@@ -20,7 +22,7 @@ function App() {
         </div>
       </section>
 
-      <div style={{ height: 42 }} />
+      <div style={{ height: 24 }} />
 
       <ImageUpload />
 
