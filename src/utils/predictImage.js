@@ -28,5 +28,15 @@ export const predictImage = async (file) => {
 
   const result = await response.json();
 
+  if (result?.error?.code === 401) {
+    window.alert("Unauthorized access. Please check your access token.");
+  } else if (result?.error?.code === 404) {
+    window.alert(
+      "No end point found. Please check your endpoint ID and project configuration.",
+    );
+  } else if (result?.error?.code === 400) {
+    window.alert("End point misconfiguration.");
+  }
+
   return result;
 };
