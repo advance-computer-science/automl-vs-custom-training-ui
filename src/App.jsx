@@ -2,10 +2,15 @@
 
 import "./App.css";
 import ImageUpload from "./components/ImageUpload";
+import { useGoogleApiKey } from "./utils/setGoogleAPIkey";
 
 // ----------------------------------------------
 
 function App() {
+  const { apiKey } = useGoogleApiKey();
+
+  console.log("found google api key in the local storage:", apiKey);
+
   return (
     <>
       <div style={{ height: 16 }} />
