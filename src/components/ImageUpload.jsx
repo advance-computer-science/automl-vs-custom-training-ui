@@ -12,6 +12,7 @@ import { resizeImage } from "../utils/resizeImage";
 
 export default function ImageUpload() {
   const [image, setImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [detections, setDetections] = useState([]);
   const [customTrainedImage, setCustomTrainedImage] = useState("");
 
@@ -33,6 +34,7 @@ export default function ImageUpload() {
       height: 256,
     });
 
+    setIsLoading(true);
     const result = await predictImage(resizedFile);
     const customResult = await customTrainingPrediction(resizedFile);
     if (customResult?.mask_base64) {
@@ -42,6 +44,7 @@ export default function ImageUpload() {
     const filteredDetections = extractDetections(result);
 
     setDetections(filteredDetections);
+    setIsLoading(false);
   };
 
   const handleImageClick = () => {
@@ -81,6 +84,12 @@ export default function ImageUpload() {
           </label>
         </div>
       </div>
+
+      {isLoading ? (
+        <div>
+          <p>Getting records from the Google API ... ⏳</p>
+        </div>
+      ) : null}
 
       <div
         style={{
