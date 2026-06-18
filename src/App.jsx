@@ -21,7 +21,6 @@ function App() {
       </section>
 
       <div style={{ height: 42 }} />
-      <div style={{ height: 42 }} />
 
       <ImageUpload />
 

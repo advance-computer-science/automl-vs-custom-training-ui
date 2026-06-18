@@ -77,9 +77,7 @@ export default function ImageUpload() {
                 className="preview-image"
               />
             ) : (
-              <>
-                <p>📷 Click to upload an image</p>
-              </>
+              <p>📷 Click to upload an image</p>
             )}
           </label>
         </div>
@@ -91,32 +89,82 @@ export default function ImageUpload() {
         </div>
       ) : null}
 
-      <div
-        style={{
-          display: "flex",
-          gap: 32,
-          justifyContent: "center",
-          flexWrap: "wrap",
-        }}
-      >
-        {detections?.length ? (
-          <AutoMLimg
-            detections={detections}
-            image={image}
-          />
-        ) : null}
+      {detections?.length || customTrainedImage?.length ? (
+        <div
+          style={{
+            display: "flex",
+            gap: 48,
+            justifyContent: "center",
+            flexWrap: "wrap",
+            border: "1px solid #ccc",
+            borderRadius: 8,
+            padding: 24,
+            marginInline: "auto",
+          }}
+        >
+          {detections?.length ? (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 16,
+              }}
+            >
+              <div
+                style={{
+                  border: "1px solid #ccc",
+                  borderRadius: 16,
+                  overflow: "hidden",
+                  maxHeight: 256,
+                }}
+              >
+                <AutoMLimg
+                  detections={detections}
+                  image={image}
+                />
+              </div>
 
-        {customTrainedImage?.length ? (
-          <div>
-            <img
-              height={256}
-              width={256}
-              src={"data:image/jpg;base64," + customTrainedImage}
-              alt="custom_trained_img"
-            />
-          </div>
-        ) : null}
-      </div>
+              <div>
+                <p>AutoMl Result</p>
+              </div>
+            </div>
+          ) : null}
+
+          {detections?.length && customTrainedImage?.length ? (
+            <hr style={{ border: "0.5px solid gray" }} />
+          ) : null}
+
+          {customTrainedImage?.length ? (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 16,
+              }}
+            >
+              <div
+                style={{
+                  border: "1px solid #ccc",
+                  borderRadius: 16,
+                  overflow: "hidden",
+                  maxHeight: 256,
+                }}
+              >
+                <img
+                  height={256}
+                  width={256}
+                  src={"data:image/jpg;base64," + customTrainedImage}
+                  alt="custom_trained_img"
+                />
+              </div>
+
+              <div>
+                <p>Custom Training Result</p>
+              </div>
+            </div>
+          ) : null}
+        </div>
+      ) : null}
     </>
   );
 }
