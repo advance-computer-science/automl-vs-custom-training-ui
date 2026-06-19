@@ -143,7 +143,7 @@ export default function ImageUpload() {
               </div>
 
               <div>
-                <p>AutoMl Result</p>
+                <p>AutoML Result</p>
               </div>
             </div>
           ) : null}
