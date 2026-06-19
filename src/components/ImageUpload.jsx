@@ -107,7 +107,7 @@ export default function ImageUpload() {
         </div>
       ) : null}
 
-      {!isLoading && (detections?.length || customTrainedImage?.length) ? (
+      {!isLoading && detections?.length ? (
         <div
           style={{
             display: "flex",

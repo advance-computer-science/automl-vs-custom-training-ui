@@ -6,6 +6,7 @@ export const PROJECT_ID = "automl-vs-custom-training";
 
 export const LOCATION = "us-central1";
 
-export const ENDPOINT_ID = "5258964665408421888";
+export const ENDPOINT_ID = "2490587900714942464";
 
-export const CUSTOM_TRAINING_ENDPOINT = "http://127.0.0.1:8000";
+export const CUSTOM_TRAINING_ENDPOINT =
+  "https://w2gz9tm2-8000.euw.devtunnels.ms";
